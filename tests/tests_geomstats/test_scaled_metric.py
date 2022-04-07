@@ -37,5 +37,5 @@ class TestScalesRiemannianMetric(TestCase, metaclass=Parametrizer):
     def test_inner_product_matrix(self):
         pass
 
-    
+
 
