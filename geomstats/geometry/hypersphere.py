@@ -766,6 +766,11 @@ class HypersphereMetric(RiemannianMetric):
             of point at the base point.
         """
         inner_prod = self._space.embedding_space.metric.inner_product(base_point, point)
+        if gs.any(gs.isclose(inner_prod, -1.0)):
+            raise ValueError(
+                "The Logarithm is not well-defined for antipodal points: "
+                f"{point} and {base_point}."
+            )
         cos_angle = gs.clip(inner_prod, -1.0, 1.0)
         squared_angle = gs.arccos(cos_angle) ** 2
         coef_1_ = utils.taylor_exp_even_func(

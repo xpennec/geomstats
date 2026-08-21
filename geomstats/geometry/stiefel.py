@@ -551,6 +551,12 @@ class _StiefelLogSolver(LogSolver):
         transpose_base_point = gs.transpose(base_point)
         matrix_m = gs.matmul(transpose_base_point, point)
 
+        if gs.any(gs.all(gs.isclose(matrix_m, -gs.eye(p)), axis=(-2, -1))):
+            raise ValueError(
+                "The Logarithm is not well-defined for antipodal points: "
+                f"{point} and {base_point}."
+            )
+
         matrix_q, matrix_n = self._normal_component_qr(point, base_point, matrix_m)
 
         matrix_v = self._orthogonal_completion(matrix_m, matrix_n)
